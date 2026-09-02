@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_order_items
+    description: "粒度：一列 = 1個品項"
+    columns:
+      - name: order_item_id
+        tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        tests:
+          - not_null
+        
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: item_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Cancelled', 'Complete', 'Processing', 'Returned', 'Shipped']

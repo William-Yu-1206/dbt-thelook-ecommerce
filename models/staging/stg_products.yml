@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_products
+    description: "粒度：一列 = 1個商品"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
