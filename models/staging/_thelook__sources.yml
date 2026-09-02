@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: thelook
+    description: "TheLook 虛構電商公開資料集"
+    database: bigquery-public-data
+    schema: thelook_ecommerce
+    tables:
+      - name: users
+        loaded_at_field: created_at
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+      - name: orders
+      - name: order_items
+      - name: products
+      - name: events
+      - name: distribution_centers
