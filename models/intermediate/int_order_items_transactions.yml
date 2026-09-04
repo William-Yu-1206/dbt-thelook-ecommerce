@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_order_items_transactions
+    description: |
+      粒度：一列 = 一個品項的一筆金流事件
+    columns:
+      - name: order_item_id
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: inventory_item_id
+        tests:
+          - not_null
+      - name: transaction_type
+        description: |
+          Sale: 正向金流
+          Return:負向金流
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Sale', 'Return']
+      - name: transaction_sign
+        description: |
+          1: 正向金流
+          -1:負向金流
+      - name: recognized_at
+        tests: 
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_item_id
+              - transaction_type
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: >
+              (transaction_type = 'Sale' and transaction_sign = 1)
+              or (transaction_type = 'Return' and transaction_sign = -1)
+  
